@@ -20,7 +20,7 @@ export default class ProductsCreation1598127683274
           {
             name: 'name',
             type: 'varchar',
-            length: '20',
+            length: '150',
             isNullable: true,
           },
           {
