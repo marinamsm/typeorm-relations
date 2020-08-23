@@ -21,7 +21,7 @@ class Product {
   @Column('real')
   price: number;
 
-  @Column('int8')
+  @Column('int4')
   quantity: number;
 
   @OneToMany(() => OrdersProducts, order_product => order_product.product, {
