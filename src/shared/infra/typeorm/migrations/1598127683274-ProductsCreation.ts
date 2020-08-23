@@ -25,7 +25,9 @@ export default class ProductsCreation1598127683274
           },
           {
             name: 'price',
-            type: 'real',
+            type: 'decimal',
+            precision: 5,
+            scale: 2,
             isNullable: false,
           },
           {

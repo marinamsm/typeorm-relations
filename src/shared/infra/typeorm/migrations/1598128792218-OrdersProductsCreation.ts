@@ -29,7 +29,9 @@ export default class OrdersProductsCreation1598128792218
           },
           {
             name: 'price',
-            type: 'real',
+            type: 'decimal',
+            precision: 5,
+            scale: 2,
             isNullable: false,
           },
           {
