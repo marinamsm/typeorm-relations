@@ -30,7 +30,7 @@ export default class ProductsCreation1598127683274
           },
           {
             name: 'quantity',
-            type: 'int8',
+            type: 'int4',
             isNullable: false,
           },
           {

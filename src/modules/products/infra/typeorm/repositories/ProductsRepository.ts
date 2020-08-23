@@ -3,6 +3,7 @@ import { getRepository, Repository, In } from 'typeorm';
 import IProductsRepository from '@modules/products/repositories/IProductsRepository';
 import ICreateProductDTO from '@modules/products/dtos/ICreateProductDTO';
 import IUpdateProductsQuantityDTO from '@modules/products/dtos/IUpdateProductsQuantityDTO';
+import AppError from '@shared/errors/AppError';
 import Product from '../entities/Product';
 
 interface IFindProducts {
@@ -42,28 +43,27 @@ class ProductsRepository implements IProductsRepository {
   public async updateQuantity(
     products: IUpdateProductsQuantityDTO[],
   ): Promise<Product[]> {
-    interface IProductsMapping {
-      [key: string]: number;
-    }
-    const productsIds: IFindProducts[] = [];
-    const productsMap: IProductsMapping = {};
+    const productsFetched = await this.findAllById(products);
 
-    products.forEach(product => {
-      productsIds.push({ id: product.id });
+    productsFetched.forEach(product => {
+      const productBought = products.find(prod => prod.id === product.id);
+      const quantityBought = productBought?.quantity || 1;
 
-      productsMap[product.id] = product.quantity;
-    });
+      console.log(
+        'Em estoque: ',
+        product.quantity,
+        'Comprado*: ',
+        quantityBought,
+      );
 
-    const currentProducts = await this.findAllById(productsIds);
-
-    /* eslint-disable no-param-reassign */
-    currentProducts.forEach(product => {
-      if (productsMap[product.id]) {
-        product.quantity = productsMap[product.id];
+      if (!quantityBought || quantityBought > product.quantity) {
+        throw new AppError('No stock');
       }
+
+      product.quantity -= quantityBought;
     });
 
-    return this.ormRepository.save(currentProducts);
+    return this.ormRepository.save(productsFetched);
   }
 }
 

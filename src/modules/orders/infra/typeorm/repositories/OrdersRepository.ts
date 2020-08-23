@@ -17,6 +17,7 @@ class OrdersRepository implements IOrdersRepository {
       customer,
     });
 
+    console.log('order created');
     return this.ormRepository.save(orderObject);
   }
 

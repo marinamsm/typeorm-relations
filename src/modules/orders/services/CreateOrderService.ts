@@ -44,22 +44,38 @@ class CreateOrderService {
       throw new AppError('Cliente inválido');
     }
 
-    const productsFetched = await this.productsRepository.findAllById(products);
+    console.log('BOUGHT...', products);
+
+    let productsFetched = [];
+
+    try {
+      productsFetched = await this.productsRepository.updateQuantity(products);
+    } catch (error) {
+      throw new AppError(error.message);
+    }
+
+    console.log('lengths: ', productsFetched.length, products.length);
 
     if (productsFetched.length !== products.length) {
-      throw new AppError('Produto não encontrado');
+      throw new AppError('Produto não encontrado ou sem estoque');
     }
+
+    console.log('AFTER UPDATE', productsFetched);
 
     const orderProductsRelation: IOrdersProductsData[] = [];
 
+    /* eslint-disable no-param-reassign */
     productsFetched.forEach(product => {
       const productBought = products.find(prod => prod.id === product.id);
       const quantityBought = productBought?.quantity;
-      orderProductsRelation.push({
-        product_id: product.id,
-        price: product.price,
-        quantity: quantityBought || 0,
-      });
+
+      if (quantityBought) {
+        orderProductsRelation.push({
+          product_id: product.id,
+          price: product.price,
+          quantity: quantityBought,
+        });
+      }
     });
 
     return this.ordersRepository.create({
