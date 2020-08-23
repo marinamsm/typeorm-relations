@@ -24,6 +24,9 @@ To create a product (the body receives name (string), price (number) and quantit
 To create an order (the body receives customer_id (string) and products - an array containing objects with the fields id (string) and quantity (number) - ):
     POST http://localhost:3333/orders
 
+To list the orders (id (string) as query param):
+    GET http://localhost:3333/orders/:id
+
 ## Running the tests
 
 Run `npm test` or `yarn test` to run all the unit tests.
