@@ -46,6 +46,10 @@ class CreateOrderService {
 
     const productsFetched = await this.productsRepository.findAllById(products);
 
+    if (productsFetched.length !== products.length) {
+      throw new AppError('Produto não encontrado');
+    }
+
     const orderProductsRelation: IOrdersProductsData[] = [];
 
     productsFetched.forEach(product => {
