@@ -49,13 +49,6 @@ class ProductsRepository implements IProductsRepository {
       const productBought = products.find(prod => prod.id === product.id);
       const quantityBought = productBought?.quantity || 1;
 
-      console.log(
-        'Em estoque: ',
-        product.quantity,
-        'Comprado*: ',
-        quantityBought,
-      );
-
       if (!quantityBought || quantityBought > product.quantity) {
         throw new AppError('No stock');
       }

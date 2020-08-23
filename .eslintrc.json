@@ -35,6 +35,7 @@
       }
     ],
     "@typescript-eslint/camelcase": "off",
+    "no-param-reassign": "off",
     "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "import/extensions": [

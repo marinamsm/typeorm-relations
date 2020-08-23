@@ -44,8 +44,6 @@ class CreateOrderService {
       throw new AppError('Cliente inválido');
     }
 
-    console.log('BOUGHT...', products);
-
     let productsFetched = [];
 
     try {
@@ -54,13 +52,9 @@ class CreateOrderService {
       throw new AppError(error.message);
     }
 
-    console.log('lengths: ', productsFetched.length, products.length);
-
     if (productsFetched.length !== products.length) {
       throw new AppError('Produto não encontrado ou sem estoque');
     }
-
-    console.log('AFTER UPDATE', productsFetched);
 
     const orderProductsRelation: IOrdersProductsData[] = [];
 
